@@ -24,8 +24,8 @@ export const getCategoryById = async (req, res) => {
 
 export const createCategory = async (req, res) => {
 	try {
-		const { title } = req.body
-		const category = new Category({ title })
+		const { title, image } = req.body
+		const category = new Category({ title, image })
 		await category.save()
 		res.status(201).json(category)
 	} catch (error) {
@@ -36,15 +36,17 @@ export const createCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
 	try {
 		const { id } = req.params
-		const { title } = req.body
-		const updatedCategory = await Category.findByIdAndUpdate(id, title, {
+		const { title,image } = req.body
+		const updatedCategory = await Category.findByIdAndUpdate(id, title, image, {
 			new: true,
 			runValidators: true,
 		})
 		if (!updatedCategory) {
 			return res.status(404).json({ message: 'Kategoriya topilmadi' })
 		}
-		res.status(200).json({ message: 'Kategoriya yangilandi', category: updatedCategory })
+		res
+			.status(200)
+			.json({ message: 'Kategoriya yangilandi', category: updatedCategory })
 	} catch (error) {
 		res.status(500).json({ message: 'Xatolik', error: error.message })
 	}
@@ -59,4 +61,3 @@ export const deleteCategory = async (req, res) => {
 		res.status(500).json({ message: 'Xatolik', error: error.message })
 	}
 }
-

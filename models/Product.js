@@ -13,7 +13,6 @@ const languageSchema = new Schema({
 
 // Ranglar uchun Schema
 const colorSchema = new Schema({
-	name: languageSchema,
 	code: {
 		type: String,
 		required: true,

@@ -1,6 +1,7 @@
 import express from 'express'
 import multer from 'multer'
 import path from 'path'
+import { verifyToken } from '../middleware/authMiddleware.js'
 const router = express.Router()
 
 const uploadFolder = 'uploads/'
@@ -16,7 +17,7 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, cb) => {
-	const allowedTypes = /jpeg|jpg|png|gif/
+	const allowedTypes = /jpeg|jpg|png|gif|webp/
 	const extname = allowedTypes.test(
 		path.extname(file.originalname).toLowerCase()
 	)
@@ -36,12 +37,12 @@ const upload = multer({
 	fileFilter,
 })
 
-router.post('/uploads', upload.single('image'), (req, res) => {
+router.post('/uploads',verifyToken, upload.single('image'), (req, res) => {
 	if (!req.file) {
 		return res.status(400).json({ error: 'Fayl yuklanmadi!' })
 	}
 
-	const imageUrl = `/uploads/${req.file.filename}`
+	const imageUrl = 'http://localhost:5555' + `/uploads/${req.file.filename}`
 	res.json({ imageUrl })
 })
 
