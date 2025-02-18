@@ -9,6 +9,7 @@ dotenv.config()
 
 const router = express.Router()
 const upload = multer({ storage: multer.memoryStorage() })
+console.log(DROPBOX_ACCESS_TOKEN)
 
 const dbx = new Dropbox({
 	accessToken: DROPBOX_ACCESS_TOKEN,
@@ -42,7 +43,9 @@ router.post('/uploads', upload.single('image'), async (req, res) => {
 		res.json({ message: 'Fayl muvaffaqiyatli yuklandi!', url: imageUrl })
 	} catch (error) {
 		console.error('Dropbox Error:', error)
-		res.status(500).json({ error: 'Rasm yuklashda xatolik yuz berdi!' })
+		res
+			.status(500)
+			.json({ error: 'Rasm yuklashda xatolik yuz berdi!', message: error })
 	}
 })
 
