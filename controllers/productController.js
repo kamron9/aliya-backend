@@ -1,8 +1,8 @@
 import Product from '../models/Product.js'
-
+import Category from '../models/Category.js'
 export const getAllProducts = async (req, res) => {
 	try {
-		const products = await Product.find()
+		const products = await Product.find().populate('category', 'title')
 		res.status(200).json(products)
 	} catch (error) {
 		res.status(500).json({ message: 'Xatolik', error: error.message })
@@ -12,7 +12,7 @@ export const getAllProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
 	try {
 		const { id } = req.params
-		const product = await Product.findById(id)
+		const product = await Product.findById(id).populate('category', 'title')
 
 		if (!product) return res.status(404).json({ message: 'Mahsulot topilmadi' })
 
@@ -57,4 +57,22 @@ export const deleteProduct = async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: 'Xatolik', error: error.message })
 	}
+}
+
+
+
+
+export const getProductsByCategory = async (req, res) => {
+  try {
+    const { slug } = req.query
+    const category = await Category.findOne({ urlSlug: slug })
+    if (!category) {
+      return res.status(404).json({ message: 'Kategoriya topilmadi' })
+    }
+    const products = await Product.find({ category: category._id }).populate('category', 'title')
+
+    res.status(200).json(products)
+  } catch (error) {
+    res.status(500).json({ message: 'Xatolik', error: error.message })
+  }
 }

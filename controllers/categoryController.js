@@ -24,8 +24,8 @@ export const getCategoryById = async (req, res) => {
 
 export const createCategory = async (req, res) => {
 	try {
-		const { title, image } = req.body
-		const category = new Category({ title, image })
+		const { title, image, urlSlug } = req.body
+		const category = new Category({ title, image, urlSlug })
 		await category.save()
 		res.status(201).json(category)
 	} catch (error) {
@@ -36,11 +36,15 @@ export const createCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
 	try {
 		const { id } = req.params
-		const { title,image } = req.body
-		const updatedCategory = await Category.findByIdAndUpdate(id, title, image, {
-			new: true,
-			runValidators: true,
-		})
+		const { title, image, urlSlug } = req.body
+		const updatedCategory = await Category.findByIdAndUpdate(
+			id,
+			{ title, image, urlSlug },
+			{
+				new: true,
+				runValidators: true,
+			}
+		)
 		if (!updatedCategory) {
 			return res.status(404).json({ message: 'Kategoriya topilmadi' })
 		}

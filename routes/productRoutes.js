@@ -4,6 +4,7 @@ import {
 	deleteProduct,
 	getAllProducts,
 	getProductById,
+	getProductsByCategory,
 	updateProduct,
 } from '../controllers/productController.js'
 import { verifyToken } from '../middleware/authMiddleware.js'
@@ -19,5 +20,7 @@ router.post('/products', verifyToken, createProduct)
 router.put('/products/:id', verifyToken, updateProduct)
 
 router.delete('/products/:id', verifyToken, deleteProduct)
+
+router.get('/products/category', getProductsByCategory)
 
 export default router
