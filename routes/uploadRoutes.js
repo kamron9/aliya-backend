@@ -37,12 +37,13 @@ const upload = multer({
 	fileFilter,
 })
 
-router.post('/uploads',verifyToken, upload.single('image'), (req, res) => {
+router.post('/uploads', verifyToken, upload.single('image'), (req, res) => {
 	if (!req.file) {
 		return res.status(400).json({ error: 'Fayl yuklanmadi!' })
 	}
 
-	const imageUrl = 'http://localhost:5555' + `/uploads/${req.file.filename}`
+	const imageUrl =
+		'https://aliya-backend.vercel.app' + `/uploads/${req.file.filename}`
 	res.json({ imageUrl })
 })
 
