@@ -1,5 +1,6 @@
 import Product from '../models/Product.js'
 import Category from '../models/Category.js'
+import mongoose from 'mongoose'
 export const getAllProducts = async (req, res) => {
 	try {
 		const products = await Product.find().populate('category', 'title')
@@ -69,7 +70,7 @@ export const getProductsByCategory = async (req, res) => {
     if (!category) {
       return res.status(404).json({ message: 'Kategoriya topilmadi' })
     }
-    const products = await Product.find({ category: category._id }).populate('category', 'title')
+		const products = await Product.find({ category: mongoose.Types.ObjectId(category._id) }).populate('category', 'title');
 
     res.status(200).json(products)
   } catch (error) {
