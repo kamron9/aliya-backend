@@ -21,6 +21,6 @@ router.put('/products/:id', verifyToken, updateProduct)
 
 router.delete('/products/:id', verifyToken, deleteProduct)
 
-router.get('/products/category', getProductsByCategory)
+router.get('/category', getProductsByCategory)
 
 export default router

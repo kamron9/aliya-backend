@@ -1,6 +1,5 @@
-import Product from '../models/Product.js'
 import Category from '../models/Category.js'
-import mongoose from 'mongoose'
+import Product from '../models/Product.js'
 export const getAllProducts = async (req, res) => {
 	try {
 		const products = await Product.find().populate('category', 'title')
@@ -60,20 +59,20 @@ export const deleteProduct = async (req, res) => {
 	}
 }
 
-
-
-
 export const getProductsByCategory = async (req, res) => {
-  try {
-    const { slug } = req.query
-    const category = await Category.findOne({ urlSlug: slug })
-    if (!category) {
-      return res.status(404).json({ message: 'Kategoriya topilmadi' })
-    }
-		const products = await Product.find({ category: mongoose.Types.ObjectId(category._id) }).populate('category', 'title');
+	try {
+		const { slug } = req.query
+		const category = await Category.findOne({ urlSlug: slug })
+		if (!category) {
+			return res.status(404).json({ message: 'Kategoriya topilmadi' })
+		}
+		const products = await Product.find({ category: category._id }).populate(
+			'category',
+			'title'
+		)
 
-    res.status(200).json(products)
-  } catch (error) {
-    res.status(500).json({ message: 'Xatolik', error: error.message })
-  }
+		res.status(200).json(products)
+	} catch (error) {
+		res.status(500).json({ message: 'custom error', error: error.message })
+	}
 }
