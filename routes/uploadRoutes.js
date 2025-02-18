@@ -3,16 +3,15 @@ import { Dropbox } from 'dropbox'
 import express from 'express'
 import multer from 'multer'
 import fetch from 'node-fetch'
+import { DROPBOX_ACCESS_TOKEN } from '../tokens.js'
 
 dotenv.config()
 
 const router = express.Router()
 const upload = multer({ storage: multer.memoryStorage() })
 
-console.log('Dropbox Token:', process.env.DROPBOX_ACCESS_TOKEN)
-
 const dbx = new Dropbox({
-	accessToken: process.env.DROPBOX_ACCESS_TOKEN,
+	accessToken: DROPBOX_ACCESS_TOKEN,
 	fetch: fetch,
 })
 
