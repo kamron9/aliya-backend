@@ -8,7 +8,7 @@ export const verifyToken = (req, res, next) => {
 
 	try {
 		const decoded = jwt.verify(token, SECRET_KEY)
-		req.adminId = decoded.id // Admin ID-ni saqlash
+		req.adminId = decoded.id
 		next()
 	} catch (error) {
 		res.status(401).json({ message: 'Noto‘g‘ri yoki muddati o‘tgan token' })
