@@ -21,7 +21,7 @@ app.use(cors())
 const server = http.createServer(app)
 const io = new Server(server, {
 	cors: {
-		origin: 'https://aliya-admin.vercel.app',
+		origin: 'https://admin.aliya.uz',
 		methods: ['GET', 'POST'],
 	},
 })
