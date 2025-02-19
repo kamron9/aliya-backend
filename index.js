@@ -8,10 +8,10 @@ import { connectDB } from './db.js'
 import authRoutes from './routes/authRoutes.js'
 import carouselRoutes from './routes/carouselRoutes.js'
 import categoryRoutes from './routes/categoryRoutes.js'
+import contactRoutes from './routes/contactRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 import productRoutes from './routes/productRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
-import orderRoutes from './routes/orderRoutes.js'
-import contactRoutes from './routes/contactRoutes.js'
 dotenv.config()
 
 const app = express()
@@ -21,7 +21,7 @@ app.use(cors())
 const server = http.createServer(app)
 const io = new Server(server, {
 	cors: {
-		origin: 'http://localhost:5173',
+		origin: 'https://aliya-admin.vercel.app',
 		methods: ['GET', 'POST'],
 	},
 })
