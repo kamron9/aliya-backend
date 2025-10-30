@@ -9,5 +9,6 @@ export const SUPABASE_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkZmh6ZXZ6b25ya2p1cWZja3puIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4MjgxMjMsImV4cCI6MjA3NzQwNDEyM30.ekuu8U8NfM56Iza_9SCcOZtA1xN8VynMLcegcBJ9Xaw';
 
 // Admin key for bucket creation (optional, fallback to anon key)
+// Get Service Role Key from Supabase Dashboard > Settings > API > service_role key
 export const SUPABASE_ADMIN_KEY =
   process.env.SUPABASE_ADMIN_KEY || SUPABASE_KEY;

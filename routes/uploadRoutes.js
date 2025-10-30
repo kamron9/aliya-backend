@@ -103,8 +103,8 @@ router.post('/uploads', upload.any(), async (req, res) => {
 
     console.log('📤 Uploading to Supabase Storage:', fileName);
 
-    // Supabase Storage ga yuklash
-    const { data, error } = await supabase.storage
+    // Supabase Storage ga yuklash (use admin key to bypass RLS)
+    const { data, error } = await supabaseAdmin.storage
       .from('uploads') // Supabase'da 'uploads' bucket yaratishingiz kerak
       .upload(fileName, fileBuffer, {
         contentType: file.mimetype,
@@ -120,7 +120,7 @@ router.post('/uploads', upload.any(), async (req, res) => {
     }
 
     // Public URL olish
-    const { data: publicUrlData } = supabase.storage
+    const { data: publicUrlData } = supabaseAdmin.storage
       .from('uploads')
       .getPublicUrl(fileName);
 
