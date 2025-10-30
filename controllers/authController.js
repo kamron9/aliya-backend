@@ -28,16 +28,39 @@ export const createAdmin = async (req, res) => {
 export const adminLogin = async (req, res) => {
   const { username, password } = req.body;
 
+  console.log('🔐 Login attempt:', { username: username });
+
   try {
+    if (!username || !password) {
+      return res.status(400).json({
+        message: "Username va parol to'ldirilishi shart!",
+        received: { username: !!username, password: !!password },
+      });
+    }
+
     const admin = await Admin.findOne({ username });
-    if (!admin) return res.status(404).json({ message: 'Admin topilmadi' });
+
+    console.log('👤 Admin found:', !!admin);
+
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin topilmadi' });
+    }
 
     const isValid = await bcrypt.compare(password, admin.password);
-    if (!isValid) return res.status(401).json({ message: 'Parol noto‘g‘ri' });
+
+    console.log('🔑 Password valid:', isValid);
+
+    if (!isValid) {
+      return res.status(401).json({ message: "Parol noto'g'ri" });
+    }
 
     const token = jwt.sign({ id: admin._id }, SECRET_KEY, { expiresIn: '7d' });
+
+    console.log('✅ Login successful, token generated');
+
     res.status(200).json({ message: 'Login muvaffaqiyatli', token });
   } catch (error) {
+    console.error('❌ Login error:', error);
     res.status(500).json({ message: 'Xatolik', error: error.message });
   }
 };
