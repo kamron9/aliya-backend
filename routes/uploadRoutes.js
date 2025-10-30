@@ -69,10 +69,10 @@ const sanitizeFilename = filename => {
 
   // Sanitize the name part
   const sanitizedName = nameWithoutExt
-    .replace(/[^a-zA-Z0-9]/g, '_') // Replace special chars with underscore
-    .replace(/\s+/g, '_') // Replace spaces with underscore
+    .replace(/[^\p{L}\p{N}\-_]/gu, '_') // harflar (har qanday tilda), raqamlar, -, _
+    .replace(/\s+/g, '_')
     .toLowerCase()
-    .substring(0, 50); // Limit length
+    .substring(0, 50);
 
   // Return sanitized name with extension
   return extension
