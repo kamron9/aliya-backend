@@ -59,6 +59,27 @@ const initBucket = async () => {
 // Initialize bucket on startup
 initBucket();
 
+// Helper function to sanitize filename
+const sanitizeFilename = filename => {
+  // Get file extension first
+  const parts = filename.split('.');
+  const extension = parts.length > 1 ? parts[parts.length - 1] : '';
+  const nameWithoutExt =
+    parts.length > 1 ? parts.slice(0, -1).join('.') : filename;
+
+  // Sanitize the name part
+  const sanitizedName = nameWithoutExt
+    .replace(/[^a-zA-Z0-9]/g, '_') // Replace special chars with underscore
+    .replace(/\s+/g, '_') // Replace spaces with underscore
+    .toLowerCase()
+    .substring(0, 50); // Limit length
+
+  // Return sanitized name with extension
+  return extension
+    ? `${sanitizedName}.${extension.toLowerCase()}`
+    : sanitizedName;
+};
+
 router.post('/uploads', upload.any(), async (req, res) => {
   try {
     console.log('📤 Upload request received:', {
@@ -72,8 +93,13 @@ router.post('/uploads', upload.any(), async (req, res) => {
       return res.status(400).json({ error: 'Fayl yuklanmadi!' });
     }
 
-    const fileName = `${Date.now()}_${file.originalname}`;
+    // Sanitize filename and create unique name
+    const sanitizedName = sanitizeFilename(file.originalname);
+    const fileName = `${Date.now()}_${sanitizedName}`;
     const fileBuffer = file.buffer;
+
+    console.log('📝 Original filename:', file.originalname);
+    console.log('📝 Sanitized filename:', fileName);
 
     console.log('📤 Uploading to Supabase Storage:', fileName);
 
